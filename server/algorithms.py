@@ -1,10 +1,9 @@
-from time import perf_counter, sleep
 from heapq import heappush, heappop
 
 from helpers import calc_distance
 
 
-def solve_dijkstra(start_id: str, end_id: str):
+def solve_dijkstra(start_id: str, end_id: str, nodes, edges):
     """
     Get the shortest distance between two nodes using Dijkstra's algorithm.
 
@@ -38,7 +37,7 @@ def solve_dijkstra(start_id: str, end_id: str):
                         # Append line
 
 
-def solve_a_star(start_id: str, end_id: str):
+def solve_a_star(start_id: str, end_id: str, nodes, edges):
     """
     Get the shortest distance between two nodes using Dijkstra's algorithm.
 
