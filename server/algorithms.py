@@ -1,3 +1,4 @@
+from time import perf_counter
 from heapq import heappush, heappop
 
 from helpers import calc_distance
@@ -11,6 +12,9 @@ def solve_dijkstra(start_id: str, end_id: str, nodes, edges):
     :param end_id: ID of the end node
     :return: Shortest distance between start and end node
     """
+    solution_t_start = perf_counter()
+
+    solution = []
 
     visited = set()
     fringe = []
@@ -22,11 +26,12 @@ def solve_dijkstra(start_id: str, end_id: str, nodes, edges):
     while True:
         c_node = heappop(fringe)
         c_distance, c_id = c_node
+        c_y, c_x = nodes[c_id]
 
         if c_id not in visited:
             visited.add(c_id)
             if c_id == end_id:  # Solution found
-                return c_distance
+                return c_distance, solution, perf_counter() - solution_t_start
             else:
                 for child_id, c_to_child_distance in edges[c_id]:
                     if child_id not in visited:
@@ -34,7 +39,7 @@ def solve_dijkstra(start_id: str, end_id: str, nodes, edges):
                         heappush(fringe, (c_distance + c_to_child_distance, child_id))
                         child_y, child_x = nodes[child_id]
 
-                        # Append line
+                        solution.append(((c_y, c_x), (child_y, child_x)))
 
 
 def solve_a_star(start_id: str, end_id: str, nodes, edges):
@@ -45,6 +50,10 @@ def solve_a_star(start_id: str, end_id: str, nodes, edges):
     :param end_id: ID of the end node
     :return: Shortest distance between start and end node
     """
+    solution_t_start = perf_counter()
+
+
+    solution = []
 
     closed = set()  # Nodes that have been resolved
     fringe = []  # Min-heap that holds nodes to check (aka. fringe)
@@ -58,8 +67,9 @@ def solve_a_star(start_id: str, end_id: str, nodes, edges):
     while len(fringe) > 0:
         c_node = heappop(fringe)
         c_f, c_distance, c_id = c_node
+        c_y, c_x = nodes[c_id]
         if c_id == end_id:
-            return c_distance
+            return c_distance, solution, perf_counter() - solution_t_start
         if c_id not in closed:
             closed.add(c_id)
             for child_id, c_to_child_distance in edges[c_id]:
@@ -70,5 +80,5 @@ def solve_a_star(start_id: str, end_id: str, nodes, edges):
                         child_distance + calc_distance(child_y, child_x, end_y, end_x), child_distance, child_id)
                     heappush(fringe, child_node)
 
-                    # Append line
+                    solution.append(((c_y, c_x), (child_y, child_x)))
     return None

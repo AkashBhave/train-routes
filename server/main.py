@@ -8,7 +8,7 @@ from algorithms import *
 
 @app.route("/solve", methods=["GET"])
 def handle_solve():
-    algorithms = {"dijk": solve_dijkstra, "a": solve_a_star}
+    algorithms = {"dijkstra": solve_dijkstra, "a": solve_a_star}
 
     user_algorithm = request.args.get("algorithm")
     user_city1 = request.args.get("city1")
@@ -23,7 +23,19 @@ def handle_solve():
         return "Invalid city (2) name"
 
     algorithm = algorithms[user_algorithm]
-    return str(algorithm(names[user_city1], names[user_city2], nodes, edges))
+
+    s = algorithm(names[user_city1], names[user_city2], nodes, edges)
+
+    if s is None:
+        return "Error in computations"
+
+    s_dist, s_path, s_runtime = s
+
+    return jsonify({
+        "distance": s_dist,
+        "runtime": s_runtime,
+        "solution": s_path
+    })
 
 
 if __name__ == "__main__":
