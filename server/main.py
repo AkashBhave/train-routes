@@ -1,12 +1,14 @@
-from flask import Flask, request, jsonify
-
-app = Flask(__name__)
-
 from data import get_data
 from algorithms import *
 
+from flask import Flask, request, jsonify, Response
+from flask_cors import cross_origin
+
+app = Flask(__name__)
+
 
 @app.route("/solve", methods=["GET"])
+@cross_origin()
 def handle_solve():
     algorithms = {"dijkstra": solve_dijkstra, "a": solve_a_star}
 
@@ -16,18 +18,18 @@ def handle_solve():
 
     # Check the arguments
     if user_algorithm is None or user_algorithm not in algorithms:
-        return "Invalid algorithm name"
+        return "Invalid algorithm name", 400
     if user_city1 is None or user_city1.strip() not in names:
-        return "Invalid city (1) name"
+        return "Invalid city (1) name", 400
     if user_city2 is None or user_city2.strip() not in names:
-        return "Invalid city (2) name"
+        return "Invalid city (2) name", 400
 
     algorithm = algorithms[user_algorithm]
 
     s = algorithm(names[user_city1], names[user_city2], nodes, edges)
 
     if s is None:
-        return "Error in computations"
+        return "Error in computations", 400
 
     s_dist, s_path, s_runtime = s
 
@@ -35,7 +37,7 @@ def handle_solve():
         "distance": s_dist,
         "runtime": s_runtime,
         "solution": s_path
-    })
+    }), 200
 
 
 if __name__ == "__main__":
