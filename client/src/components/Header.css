@@ -1,0 +1,18 @@
+header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+header .header-title {
+    font-size: 2.5em;
+}
+
+header .header-title > span {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+header p {
+    margin-top: -15px;
+}
