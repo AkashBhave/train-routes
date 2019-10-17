@@ -5,6 +5,7 @@ import './App.css';
 import Map from './components/Map';
 import Header from './components/Header';
 import CitySelect from './components/CitySelect';
+import AlgorithmSelect from './components/AlgorithmSelect';
 
 const App = () => {
     const [data, setData] = useState(null);
@@ -18,8 +19,11 @@ const App = () => {
             <div style={{ marginBottom: '30px' }}>
                 <Header />
             </div>
-            <div style={{ marginBottom: '30px' }}>
+            <div style={{ marginBottom: '20px' }}>
                 <CitySelect />
+            </div>
+            <div style={{ marginBottom: '30px' }}>
+                <AlgorithmSelect />
             </div>
             <div>{data ? <Map points={data.solution} /> : <div>Loading...</div>}</div>
         </div>
