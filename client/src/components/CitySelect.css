@@ -1,0 +1,27 @@
+.city-select {
+    font-size: 1.2em;
+}
+
+.city-select .city-field {
+    display: inline-block;
+    margin-right: 30px;
+    margin-left: 30px;
+}
+
+.city-select .city-field input {
+    padding: 5px;
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: inherit;
+
+    transition: 0.3s all ease-in;
+}
+.city-select .city-field input:focus {
+    outline-width: 0;
+    border: 1px solid mediumblue;
+}
+
+.city-select .city-field span {
+    margin-right: 10px;
+}

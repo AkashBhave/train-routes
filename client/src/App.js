@@ -4,6 +4,7 @@ import axios from 'axios';
 import './App.css';
 import Map from './components/Map';
 import Header from './components/Header';
+import CitySelect from './components/CitySelect';
 
 const App = () => {
     const [data, setData] = useState(null);
@@ -14,7 +15,12 @@ const App = () => {
 
     return (
         <div className="App">
-            <Header />
+            <div style={{ marginBottom: '30px' }}>
+                <Header />
+            </div>
+            <div style={{ marginBottom: '30px' }}>
+                <CitySelect />
+            </div>
             <div>{data ? <Map points={data.solution} /> : <div>Loading...</div>}</div>
         </div>
     );
