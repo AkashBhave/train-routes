@@ -1,14 +1,18 @@
-.city-select {
+#form {
     font-size: 1.2em;
 }
 
-.city-select .city-field {
+#form .city-select {
+    margin-bottom: 30px;
+}
+
+#form .city-select label {
     display: inline-block;
     margin-right: 30px;
     margin-left: 30px;
 }
 
-.city-select .city-field input {
+#form .city-select input {
     padding: 5px;
     border: 1px solid lightblue;
     border-radius: 5px;
@@ -17,11 +21,24 @@
 
     transition: 0.3s all ease-in;
 }
-.city-select .city-field input:focus {
+#form .city-select input:focus {
     outline-width: 0;
     border: 1px solid mediumblue;
 }
 
-.city-select .city-field span {
+#form .city-select span {
+    margin-right: 10px;
+}
+
+#form .algo-select {
+    margin-bottom: 30px;
+}
+
+#form .algo-select label {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+#form .algo-select span {
     margin-right: 10px;
 }

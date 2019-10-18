@@ -4,15 +4,18 @@ import axios from 'axios';
 import './App.css';
 import Map from './components/Map';
 import Header from './components/Header';
-import CitySelect from './components/CitySelect';
-import AlgorithmSelect from './components/AlgorithmSelect';
+import Form from './components/Form';
 
 const App = () => {
     const [data, setData] = useState(null);
 
-    useEffect(() => {
-        axios.get('http://localhost:5000/solve?algorithm=a&city1=Leon&city2=Montreal').then(res => setData(res.data));
-    }, []);
+    const handleSubmit = (origin, dest, algo) => {
+        axios
+            .get(`http://localhost:5000/solve?algorithm=${algo}&city1=${origin}&city2=${dest}`)
+            .then(res => setData(res.data));
+    };
+
+    useEffect(() => {}, []);
 
     return (
         <div className="App">
@@ -20,12 +23,11 @@ const App = () => {
                 <Header />
             </div>
             <div style={{ marginBottom: '20px' }}>
-                <CitySelect />
+                <Form submit={handleSubmit} />
             </div>
-            <div style={{ marginBottom: '30px' }}>
-                <AlgorithmSelect />
+            <div>
+                <Map points={data ? data.solution : null} />
             </div>
-            <div>{data ? <Map points={data.solution} /> : <div>Loading...</div>}</div>
         </div>
     );
 };

@@ -35,7 +35,7 @@ const M = ({ points }) => {
         () => {
             setPointsI(pointsI + 100);
         },
-        pointsI < points.length ? 1 : null
+        points ? (pointsI < points.length ? 1 : null) : null
     );
 
     return (
@@ -45,9 +45,9 @@ const M = ({ points }) => {
                     attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {points.slice(0, pointsI).map((point, i) => (
-                    <Polyline key={i} color="red" positions={point} />
-                ))}
+                {points
+                    ? points.slice(0, pointsI).map((point, i) => <Polyline key={i} color="red" positions={point} />)
+                    : null}
             </Map>
         </>
     );
