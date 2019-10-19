@@ -12,10 +12,11 @@ const App = () => {
     const handleSubmit = (origin, dest, algo) => {
         axios
             .get(`http://localhost:5000/solve?algorithm=${algo}&city1=${origin}&city2=${dest}`)
-            .then(res => setData(res.data));
+            .then(res => setData(res.data))
+            .catch(err => {
+                alert(err.response.data);
+            });
     };
-
-    useEffect(() => {}, []);
 
     return (
         <div className="App">
