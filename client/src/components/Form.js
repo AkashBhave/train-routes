@@ -38,7 +38,9 @@ const Form = ({ submit }) => {
                 </label>
             </div>
 
-            <input type="submit" value="Submit" />
+            <button type="submit" value="Submit">
+                Visualize
+            </button>
         </form>
     );
 };

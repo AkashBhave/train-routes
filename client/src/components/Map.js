@@ -33,9 +33,9 @@ const M = ({ points }) => {
     // Keep updating the end index while index is below the total length
     useInterval(
         () => {
-            setPointsI(pointsI + 100);
+            setPointsI(pointsI + 1000);
         },
-        points ? (pointsI < points.length ? 1 : null) : null
+        points ? (pointsI < points.length ? 100 : null) : null
     );
 
     return (
@@ -46,7 +46,9 @@ const M = ({ points }) => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
                 {points
-                    ? points.slice(0, pointsI).map((point, i) => <Polyline key={i} color="red" positions={point} />)
+                    ? points
+                          .slice(0, pointsI)
+                          .map((point, i) => <Polyline weight="1" key={i} color="red" positions={point} />)
                     : null}
             </Map>
         </>

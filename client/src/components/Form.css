@@ -42,3 +42,19 @@
 #form .algo-select span {
     margin-right: 10px;
 }
+
+#form button {
+    padding: 10px;
+    border: 1px solid lightblue;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 30px;
+
+    font-size: 1em;
+    font-family: inherit;
+
+    transition: 0.3s all ease-in;
+}
+#form button:hover {
+    border: 1px solid mediumblue;
+}
