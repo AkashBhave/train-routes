@@ -15,7 +15,7 @@ const App = () => {
             .get(`http://localhost:5000/solve?algorithm=${algo}&city1=${origin}&city2=${dest}`)
             .then(res => setData(res.data))
             .catch(err => {
-                alert(err.response.data);
+                alert(err);
             });
         setMapActive(true);
     };
@@ -34,7 +34,7 @@ const App = () => {
                 <Form submit={handleSubmit} />
             </div>
             <div>
-                <Map active={mapActive} setActive={updateMapActive} points={data ? data.solution : null} />
+                <Map active={mapActive} setActive={updateMapActive} data={data || null} />
             </div>
         </div>
     );
