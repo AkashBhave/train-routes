@@ -8,6 +8,7 @@ import Form from './components/Form';
 
 const App = () => {
     const [data, setData] = useState(null);
+    const [mapActive, setMapActive] = useState(false);
 
     const handleSubmit = (origin, dest, algo) => {
         axios
@@ -16,6 +17,12 @@ const App = () => {
             .catch(err => {
                 alert(err.response.data);
             });
+        setMapActive(true);
+    };
+
+    const updateMapActive = state => {
+        setMapActive(state);
+        console.log('map is', state);
     };
 
     return (
@@ -27,7 +34,7 @@ const App = () => {
                 <Form submit={handleSubmit} />
             </div>
             <div>
-                <Map points={data ? data.solution : null} />
+                <Map active={mapActive} setActive={updateMapActive} points={data ? data.solution : null} />
             </div>
         </div>
     );
