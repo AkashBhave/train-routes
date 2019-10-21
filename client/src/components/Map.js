@@ -1,7 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Map, TileLayer, Polyline } from 'react-leaflet';
+import Slider from 'rc-slider';
 
 import './Map.css';
+import 'rc-slider/assets/index.css';
 
 // "Custom" callback to allow `setInterval` with state
 // Adapted from https://overreacted.io/making-setinterval-declarative-with-react-hooks/
@@ -30,16 +32,18 @@ const M = props => {
     const [lon, setLon] = useState(-99.636657);
     const [zoom, setZoom] = useState(4);
 
+    const [speed, setSpeed] = useState(100);
+
     const [pointsI, setPointsI] = useState(0);
 
     // Keep updating the end index while index is below the total length
     useInterval(
         () => {
             if (props.active) {
-                setPointsI(pointsI + 100);
+                setPointsI(pointsI + speed);
             }
         },
-        props.data ? (pointsI < props.data.solution.length ? 10 : null) : null
+        props.data ? (pointsI < props.data.solution.length ? 1 : null) : null
     );
 
     return (
@@ -50,13 +54,19 @@ const M = props => {
                     <button onClick={() => props.setActive(false)}>Pause</button>
                     <button
                         onClick={() => {
-                            props.setActive(false);
                             setPointsI(0);
+                            props.setActive(false);
                         }}>
                         Reset
                     </button>
+                    <div className="slider">
+                        <label>Speed</label>
+                        <Slider min={1} max={500} defaultValue={speed} onChange={v => setSpeed(v)} />
+                    </div>
                 </div>
-                {props.data ? <div id="info">Completed in {Number(props.data.runtime.toFixed(6))} sec.</div> : null}
+                {props.data ? (
+                    <div id="info">Algorithm completed in {Number(props.data.runtime.toFixed(6))} sec.</div>
+                ) : null}
             </div>
             <Map center={[lat, lon]} zoom={zoom} id="map">
                 <TileLayer
@@ -68,6 +78,10 @@ const M = props => {
                           .slice(0, pointsI)
                           .map((point, i) => <Polyline weight="1" key={i} color="#DD1C1A" positions={point} />)
                     : null}
+                {props.data && pointsI >= props.data.solution.length ? (
+                    <Polyline weight="2" color="#07A0C3" positions={props.data.path} />
+                ) : null}
+                }
             </Map>
         </>
     );

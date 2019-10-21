@@ -1,7 +1,17 @@
 from time import perf_counter
 from heapq import heappush, heappop
+from collections import deque as queue
 
 from helpers import calc_distance
+
+
+def associations_to_path(associations: dict, goal_id: str, nodes) -> list:
+    this_id = goal_id
+    path = queue()
+    while not this_id is None:
+        path.appendleft(nodes[this_id])
+        this_id = associations[this_id]
+    return list(path)
 
 
 def solve_dijkstra(start_id: str, end_id: str, nodes, edges):
@@ -15,6 +25,7 @@ def solve_dijkstra(start_id: str, end_id: str, nodes, edges):
     solution_t_start = perf_counter()
 
     solution = []
+    associations = {start_id: None}
 
     visited = set()
     fringe = []
@@ -31,10 +42,15 @@ def solve_dijkstra(start_id: str, end_id: str, nodes, edges):
         if c_id not in visited:
             visited.add(c_id)
             if c_id == end_id:  # Solution found
-                return c_distance, solution, perf_counter() - solution_t_start
+                return c_distance, solution, perf_counter() - solution_t_start, associations_to_path(associations, c_id,
+                                                                                                     nodes)
             else:
                 for child_id, c_to_child_distance in edges[c_id]:
                     if child_id not in visited:
+                        # Add to solution path
+                        if child_id not in associations:
+                            associations[child_id] = c_id
+
                         # Add child node to the fringe with the new cost
                         heappush(fringe, (c_distance + c_to_child_distance, child_id))
                         child_y, child_x = nodes[child_id]
@@ -52,8 +68,8 @@ def solve_a_star(start_id: str, end_id: str, nodes, edges):
     """
     solution_t_start = perf_counter()
 
-
     solution = []
+    associations = {start_id: None}
 
     closed = set()  # Nodes that have been resolved
     fringe = []  # Min-heap that holds nodes to check (aka. fringe)
@@ -69,11 +85,16 @@ def solve_a_star(start_id: str, end_id: str, nodes, edges):
         c_f, c_distance, c_id = c_node
         c_y, c_x = nodes[c_id]
         if c_id == end_id:
-            return c_distance, solution, perf_counter() - solution_t_start
+            return c_distance, solution, perf_counter() - solution_t_start, associations_to_path(associations, c_id,
+                                                                                                 nodes)
         if c_id not in closed:
             closed.add(c_id)
             for child_id, c_to_child_distance in edges[c_id]:
                 if child_id not in closed:
+                    # Add to solution path
+                    if child_id not in associations:
+                        associations[child_id] = c_id
+
                     child_distance = c_distance + c_to_child_distance  # Cost function
                     child_y, child_x = nodes[child_id]
                     child_node = (

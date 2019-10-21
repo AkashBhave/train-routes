@@ -11,18 +11,25 @@ const App = () => {
     const [mapActive, setMapActive] = useState(false);
 
     const handleSubmit = (origin, dest, algo) => {
+        setData(null);
+        setMapActive(false);
         axios
             .get(`http://localhost:5000/solve?algorithm=${algo}&city1=${origin}&city2=${dest}`)
-            .then(res => setData(res.data))
+            .then(res => {
+                setData(res.data);
+            })
             .catch(err => {
-                alert(`Error ${err.response.status}: ${err.response.data}`);
+                if (err.response !== null) {
+                    alert(`Error ${err.response.status}: ${err.response.data}`);
+                } else {
+                    alert('Error 404: Back-end not active');
+                }
             });
         setMapActive(true);
     };
 
     const updateMapActive = state => {
         setMapActive(state);
-        console.log('map is', state);
     };
 
     return (

@@ -32,12 +32,13 @@ def handle_solve():
         if s is None:
             return "Error in computations", 500
 
-        s_dist, s_path, s_runtime = s
+        s_dist, s_all, s_runtime, s_path = s
 
         return jsonify({
             "distance": s_dist,
             "runtime": s_runtime,
-            "solution": s_path
+            "solution": s_all,
+            "path": s_path
         }), 200
     except ValueError:
         return "Error in computations", 500
