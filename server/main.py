@@ -24,20 +24,23 @@ def handle_solve():
     if user_city2 is None or user_city2.strip() not in names:
         return "Invalid city (2) name", 400
 
-    algorithm = algorithms[user_algorithm]
+    try:
+        algorithm = algorithms[user_algorithm]
 
-    s = algorithm(names[user_city1], names[user_city2], nodes, edges)
+        s = algorithm(names[user_city1], names[user_city2], nodes, edges)
 
-    if s is None:
-        return "Error in computations", 400
+        if s is None:
+            return "Error in computations", 500
 
-    s_dist, s_path, s_runtime = s
+        s_dist, s_path, s_runtime = s
 
-    return jsonify({
-        "distance": s_dist,
-        "runtime": s_runtime,
-        "solution": s_path
-    }), 200
+        return jsonify({
+            "distance": s_dist,
+            "runtime": s_runtime,
+            "solution": s_path
+        }), 200
+    except ValueError:
+        return "Error in computations", 500
 
 
 if __name__ == "__main__":

@@ -66,7 +66,7 @@ const M = props => {
                 {props.data
                     ? props.data.solution
                           .slice(0, pointsI)
-                          .map((point, i) => <Polyline weight="1" key={i} color="red" positions={point} />)
+                          .map((point, i) => <Polyline weight="1" key={i} color="#DD1C1A" positions={point} />)
                     : null}
             </Map>
         </>

@@ -15,7 +15,7 @@ const App = () => {
             .get(`http://localhost:5000/solve?algorithm=${algo}&city1=${origin}&city2=${dest}`)
             .then(res => setData(res.data))
             .catch(err => {
-                alert(err);
+                alert(`Error ${err.response.status}: ${err.response.data}`);
             });
         setMapActive(true);
     };
