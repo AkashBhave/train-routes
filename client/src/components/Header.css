@@ -1,5 +1,6 @@
 header .header-title {
     font-size: 2.5em;
+    font-weight: 600;
 }
 
 header .header-title > span {
