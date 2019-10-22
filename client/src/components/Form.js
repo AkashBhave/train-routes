@@ -31,10 +31,17 @@ const Form = ({ submit }) => {
                     <span>A*</span>
                     <input type="radio" name="algorithm" value="a" />
                 </label>
-
                 <label htmlFor="dijkstra">
                     <span>Dijkstra</span>
                     <input type="radio" name="algorithm" value="dijkstra" />
+                </label>
+                <label htmlFor="bfs">
+                    <span>BFS</span>
+                    <input type="radio" name="algorithm" value="bfs" />
+                </label>
+                <label htmlFor="iddfs">
+                    <span>ID-DFS</span>
+                    <input type="radio" name="algorithm" value="iddfs" />
                 </label>
             </div>
 

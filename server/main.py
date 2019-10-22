@@ -10,7 +10,7 @@ app = Flask(__name__)
 @app.route("/solve", methods=["GET"])
 @cross_origin()
 def handle_solve():
-    algorithms = {"dijkstra": solve_dijkstra, "a": solve_a_star}
+    algorithms = {"dijkstra": solve_dijkstra, "a": solve_a_star, "bfs": solve_bfs, "iddfs": solve_id_dfs}
 
     user_algorithm = request.args.get("algorithm")
     user_city1 = request.args.get("city1")

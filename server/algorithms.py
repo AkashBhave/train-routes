@@ -1,6 +1,7 @@
 from time import perf_counter
 from heapq import heappush, heappop
 from collections import deque as queue
+from itertools import count
 
 from helpers import calc_distance
 
@@ -56,6 +57,81 @@ def solve_dijkstra(start_id: str, end_id: str, nodes, edges):
                         child_y, child_x = nodes[child_id]
 
                         solution.append(((c_y, c_x), (child_y, child_x)))
+
+
+def solve_bfs(start_id: str, end_id: str, nodes, edges):
+    solution_t_start = perf_counter()
+
+    solution = []
+
+    # Initialize data structures
+    fringe = queue()  # Queue to hold nodes to check since it's FIFO
+    visited = {}  # Dict/hash-map for nodes already checked: key = node, value = parent
+
+    # Add initial node to collections
+    fringe.append((0, start_id))
+    visited[start_id] = None  # Start node has no parents
+
+    while len(fringe) > 0:
+        current_distance, current_id = fringe.popleft()
+        current_y, current_x = nodes[current_id]
+        if current_id == end_id:
+            this_id = current_id
+            path = queue()
+            while not this_id == start_id:
+                path.appendleft(this_id)
+                this_id = visited[this_id]
+            return current_distance, solution, perf_counter() - solution_t_start, associations_to_path(visited, end_id,
+                                                                                                       nodes)
+        for child_id, c_to_child_distance in edges[current_id]:
+            if child_id not in visited:
+                fringe.append((current_distance + c_to_child_distance, child_id))
+                visited[child_id] = current_id
+
+                child_y, child_x = nodes[child_id]
+                solution.append(((current_y, current_x), (child_y, child_x)))
+
+    return None
+
+
+def solve_id_dfs(start_id: str, end_id: str, nodes, edges):
+    solution_t_start = perf_counter()
+
+    solution_all = []
+
+    def k_dfs(s_id: str, k: int):
+        fringe = []  # Stack to hold nodes to check
+
+        start_node = (s_id, 0, {s_id}, [])  # (string representation, depth, ancestors)
+        fringe.append(start_node)
+
+        while len(fringe) > 0:  # Keep iterating until the fringe is empty
+            c_node = fringe.pop()
+            c_id, c_distance, c_ancestors, c_path = c_node
+            c_y, c_x = nodes[c_id]
+            c_children = edges[c_id]
+            if c_id == end_id:
+                return c_node
+            if c_distance < k:
+                for child_id, c_to_child_distance in c_children:
+                    if child_id not in c_ancestors:
+                        child_node = (child_id,
+                                      c_distance + c_to_child_distance,
+                                      c_ancestors.union({child_id}),
+                                      [*c_path, child_id])
+                        fringe.append(child_node)
+
+                        child_y, child_x = nodes[child_id]
+                        if ((c_y, c_x), (child_y, child_x)) not in solution_all:
+                            solution_all.append(((c_y, c_x), (child_y, child_x)))
+        return None
+
+    for depth in count():
+        solution = k_dfs(start_id, depth * 100)
+        print(depth * 100)
+        if solution is not None and solution[0] == end_id:
+            solution_path = [nodes[n] for n in solution[3]]
+            return solution[1], solution_all, perf_counter() - solution_t_start, solution_path
 
 
 def solve_a_star(start_id: str, end_id: str, nodes, edges):
