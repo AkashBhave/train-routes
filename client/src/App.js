@@ -5,6 +5,7 @@ import './App.css';
 import Map from './components/Map';
 import Header from './components/Header';
 import Form from './components/Form';
+import Footer from './components/Footer';
 
 const App = () => {
     const [data, setData] = useState(null);
@@ -40,8 +41,11 @@ const App = () => {
             <div style={{ marginBottom: '20px' }}>
                 <Form submit={handleSubmit} />
             </div>
-            <div>
+            <div style={{ marginBottom: '30px' }}>
                 <Map active={mapActive} setActive={updateMapActive} data={data || null} />
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+                <Footer />
             </div>
         </div>
     );

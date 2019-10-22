@@ -2,7 +2,7 @@
     margin-bottom: 10px;
     padding: 0 10px;
     display: flex;
-    font-size: 0.8em;
+    font-size: 0.85em;
 }
 
 #controls {
@@ -20,6 +20,7 @@
     transition: 0.3s all ease-in;
     margin-right: 20px;
     font-family: inherit;
+    font-size: inherit;
 }
 #controls button:hover {
     border: 1px solid mediumblue;
